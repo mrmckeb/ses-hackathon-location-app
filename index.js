@@ -38,6 +38,12 @@ io.on('connection', function(socket) {
 /*
  * Views
  */
+app.use(function(req, res, next) {
+  // FIXME: Lock down
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // Client
 app.get('/', function(req, res) {
@@ -45,6 +51,7 @@ app.get('/', function(req, res) {
 });
 
 // API
+// TODO: Add Rank and Name fields
 var Promise = require("bluebird");
 app.get('/api/1/unit/:unit/all', function(req, res) { ; });
 app.param('unit', function(req, res, next, value) {
