@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Client</title>
+  </head>
+  <body>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js" crossorigin="anonymous"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNa5VW1tUQGUF8_Wcq6kN2u8rZ3lEso4U"></script>
+    <script language="javascript" type="text/javascript">
+      var socket = io();
+
+      function doSend(response, status) {
+        if (status === google.maps.DistanceMatrixStatus.OK) {
+          var distance = response.rows[0].elements[0].duration.value;
+          socket.emit('distance', JSON.stringify({"distance": distance}));
+        } else {
+          console.log('Maps Error:', status);
+        }
+      }
+
+      function doCoordinate(latitude, longitude) {
+        var origin = new google.maps.LatLng(latitude, longitude);
+        var destination = new google.maps.LatLng(-34.402074, 150.8953366);
+        var distanceService = new google.maps.DistanceMatrixService();
+        distanceService.getDistanceMatrix({
+          origins: [origin],
+          destinations: [destination],
+          travelMode: google.maps.TravelMode.DRIVING,
+          unitSystem: google.maps.UnitSystem.METRIC
+        }, doSend);
+      }
+
+      function geoSuccess(position) {
+        doCoordinate(position.coords.latitude, position.coords.longitude);
+      }
+
+      function geoError() {
+        console.log("GPS Error: No position available");
+      }
+
+      function init() {
+        socket.on('connect', function() {
+          socket.emit('authentication', { username: "blah", password: "secret" });
+          socket.on('authenticated', function(msg) {
+            navigator.geolocation.watchPosition(geoSuccess, geoError, { enableHighAccuracy: true });
+          });
+        });
+      }
+
+      init();
+    </script>
+  </body>
+</html>
