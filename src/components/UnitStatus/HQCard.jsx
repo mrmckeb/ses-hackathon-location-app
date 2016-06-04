@@ -6,13 +6,6 @@ const styles = {
   margin: '0 0 20px'
 };
 
-const avatarStyle = {
-  width: '64px',
-  borderRadius: '50%',
-  float: 'left',
-  margin: '16px'
-};
-
 const titleStyle = {
   fontSize: '20px',
 };

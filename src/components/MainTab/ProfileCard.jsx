@@ -3,6 +3,9 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import ContactRow from '../shared/ContactRow'
 
+// Colors
+import { blue700 } from 'material-ui/styles/colors';
+
 const styles = {
   margin: '0 0 20px'
 };
@@ -26,7 +29,7 @@ const subtitleStyle = {
 
 const ProfileCard = () => (
   <Card style={styles}>
-    <img style={avatarStyle} src="https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg" />
+    <img style={avatarStyle} src="/public/lisa-brynn.jpg" />
     <CardHeader
       title="Lisa Brynn"
       titleStyle={titleStyle}
@@ -39,7 +42,7 @@ const ProfileCard = () => (
       <ContactRow type="Address" value="20 Longbeach Road, Wollongong, NSW 2500" />
     </CardText>
     <CardActions>
-      <FlatButton label="Update my profile" />
+      <FlatButton label="Update my profile" labelStyle={{color: blue700 }} />
     </CardActions>
   </Card>
 );

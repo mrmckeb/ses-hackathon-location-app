@@ -2,7 +2,7 @@ import React from 'react';
 
 // Components
 import AppBar from './components/AppBar';
-import HomeScreen from './components/HomeScreen';
+import AppTabs from './components/AppTabs';
 
 const style = {
   fontFamily: 'Roboto, sans-serif'
@@ -11,7 +11,7 @@ const style = {
 const AppLayout = () => (
   <div style={style}>
     <AppBar />
-    <HomeScreen />
+    <AppTabs />
   </div>
 );
 

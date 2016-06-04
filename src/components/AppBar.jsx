@@ -43,7 +43,7 @@ export default class CustomAppBar extends Component {
             targetOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-            <MenuItem primaryText="Refresh" />
+            <MenuItem primaryText="Settings" />
             <MenuItem primaryText="Help" />
             <MenuItem primaryText="Sign out" />
           </IconMenu>

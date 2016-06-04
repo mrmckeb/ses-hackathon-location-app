@@ -7,11 +7,15 @@ import FlatButton from 'material-ui/FlatButton';
 import NewReleases from 'material-ui/svg-icons/av/new-releases';
 import Expiring from 'material-ui/svg-icons/action/hourglass-full';
 // Colors
-import { red800, blue800 } from 'material-ui/styles/colors';
+import { red800, blue700 } from 'material-ui/styles/colors';
 
 const styles = {
   margin: '20px 0'
-}
+};
+
+const labelStyles = {
+  color: blue700
+};
 
 export default class QualificationCard extends React.Component {
 
@@ -21,7 +25,7 @@ export default class QualificationCard extends React.Component {
         <CardHeader
           avatar={this.props.expiring ?
             <Avatar backgroundColor={red800} icon={<Expiring />} /> :
-            <Avatar backgroundColor={blue800} icon={<NewReleases />} />}
+            <Avatar backgroundColor={blue700} icon={<NewReleases />} />}
           title={this.props.title}
           subtitle={this.props.subtitle}
           actAsExpander={true}
@@ -32,8 +36,8 @@ export default class QualificationCard extends React.Component {
         </CardText>
         <CardActions expandable={true}>
           {this.props.expiring ?
-            <FlatButton label="Renew" /> :
-            <FlatButton label="Sign up" />}
+            <FlatButton label="Renew qualification" labelStyle={labelStyles} /> :
+            <FlatButton label="Sign up for course" labelStyle={labelStyles} />}
         </CardActions>
       </Card>
     );
