@@ -10,7 +10,9 @@
     "type": "git",
     "url": "https://github.com/mrmckeb/ses-hackathon-location-app.git"
   },
-  "author": "Brody McKee",
+  "contributors": [
+    "Brody McKee", "Lachlan Bishop", "Lee Warren"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mrmckeb/ses-hackathon-location-app/issues"

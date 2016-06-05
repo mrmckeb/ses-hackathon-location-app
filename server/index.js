@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded());
 
 // Listen
 var appAddr = process.env.APP_ADDR || '0.0.0.0';
-var appPort = process.env.APP_PORT || 3000;
+var appPort = process.env.APP_PORT || 3001;
 https.listen(appPort, appAddr, function() { console.log('listening on ' + appAddr + ':' + appPort); });
 io.on('connection', function(socket) {
   socket.on('distance', function(msg) { storeDistance(msg, socket); });
