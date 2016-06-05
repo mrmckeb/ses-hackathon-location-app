@@ -2,6 +2,9 @@
   "name": "socket-chat-example",
   "version": "0.0.1",
   "description": "my first socket.io app",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "bluebird": "^3.4.0",
     "body-parser": "^1.15.1",
