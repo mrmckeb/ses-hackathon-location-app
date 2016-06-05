@@ -26,6 +26,8 @@ require('socketio-auth')(io, {
   authenticate: authenticate,
   postAuthenticate: postAuthenticate
 });
+var bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded());
 
 // Listen
 var appAddr = process.env.APP_ADDR || '0.0.0.0';
@@ -52,6 +54,7 @@ app.get('/', function(req, res) {
 
 // API
 // TODO: Add Rank and Name fields
+// TODO: Auth
 var Promise = require("bluebird");
 app.get('/api/1/unit/:unit/all', function(req, res) { ; });
 app.param('unit', function(req, res, next, value) {
@@ -71,9 +74,8 @@ app.param('unit', function(req, res, next, value) {
   });
 });
 
-app.get('/api/1/user/:user', function(req, res) { ; });
-app.param('user', function(req, res, next, value) {
-  redisClient.hgetall(value, function(err, msg) {
+app.get('/api/1/user/:user', function(req, res) {
+  redisClient.hgetall(req.blah, function(err, msg) {
     if (msg && !err) {
       res.send(JSON.stringify({'status': 'OK', 'user': msg}));
     } else {
@@ -81,6 +83,24 @@ app.param('user', function(req, res, next, value) {
       console.log(err);
     }
   });
+});
+
+// TODO: Check if you're that user
+// TODO: Parse to make sure the request makes sense
+// TODO: Send a proper status
+app.post('/api/1/user/:user', function(req, res) {
+  if (req.body.available) {
+    redisClient.hmset(req.blah, 'available', req.body.available);
+    res.send(JSON.stringify({'status': 'OK'}));
+  } else {
+    res.send(JSON.stringify({'status': 'ERROR'}));
+  }
+});
+
+app.param('user', function(req, res, next, value) {
+  // FIXME: Lol
+  req.blah = value;
+  next();
 });
 
 /*
@@ -114,7 +134,7 @@ function builder(msg, username) {
 }
 
 function availableFilter(values) {
-  return values.filter(function(value) { return value.available; });
+  return values.filter(function(value) { return value.available == "true"; });
 }
 
 function distanceFilter(values, distance) {
@@ -133,13 +153,12 @@ function postAuthenticate(socket, msg) {
 // Turn coords into distance
 function storeDistance(msg, socket) {
   if (!socket.auth) {
-    console.log('Unauth');
     return;
   }
   var username = socket.client.username;
   var distance = JSON.parse(msg).distance;
 
   // Set
-  redisClient.hmset(username, 'distance', distance, 'available', true);
+  redisClient.hmset(username, 'distance', distance);
   redisClient.sadd('wollongong', username);
 }
