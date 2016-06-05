@@ -78,7 +78,9 @@ export default class AvailabilityTable extends React.Component {
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
             {this.state.unitAvailabilityData
-              .sort((a, b) => parseInt(a.distance) > parseInt(b.distance))
+              .sort((a, b) => {
+                return parseInt(a.distance) < parseInt(b.distance) ? -1 : parseInt(a.distance) > parseInt(b.distance) ? 1 : 0;
+              })
               .map(nameMap)
               .map((member, index) =>
               <TableRow key={index}>
