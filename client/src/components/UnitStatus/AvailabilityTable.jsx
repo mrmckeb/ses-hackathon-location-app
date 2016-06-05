@@ -1,10 +1,9 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import socketio from '../helpers/socket-io';
-import nameMap from '../helpers/name-map';
-
-const serverAddress = '192.168.1.74:3000';
+import socketio from '../../helpers/socket-io';
+import nameMap from '../../helpers/name-map';
+import { serverAddress } from '../../config/config';
 const socket = socketio(serverAddress);
 
 // Icons

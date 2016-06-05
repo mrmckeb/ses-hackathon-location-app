@@ -10,7 +10,7 @@ import Close from 'material-ui/svg-icons/navigation/close';
 // Colors
 import { red800, green400, green600 } from 'material-ui/styles/colors';
 
-const serverAddress = '192.168.1.74:3000';
+import { serverAddress } from '../../config/config';
 
 const styles = {
   margin: '0 0 20px'
