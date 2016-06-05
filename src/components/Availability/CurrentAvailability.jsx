@@ -10,6 +10,8 @@ import Close from 'material-ui/svg-icons/navigation/close';
 // Colors
 import { red800, green400, green600 } from 'material-ui/styles/colors';
 
+const serverAddress = '192.168.1.74:3000';
+
 const styles = {
   margin: '0 0 20px'
 };
@@ -39,6 +41,10 @@ export default class ProfileCard extends React.Component {
     }
   }
 
+  componentWillMount () {
+    this.postData(this.state.available);
+  }
+
   clickHandler () {
     let available = true;
     if (this.state.available) {
@@ -47,7 +53,21 @@ export default class ProfileCard extends React.Component {
 
     this.setState({
       available
-    })
+    });
+
+    this.postData(available);
+  }
+
+  postData (isAvailable) {
+    fetch(`https://${serverAddress}/api/1/user/lbrynn`,
+      {
+        method: 'POST',
+        mode: 'cors',
+        headers: new Headers({
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }),
+        body: `available=${isAvailable}`
+      });
   }
 
   render () {

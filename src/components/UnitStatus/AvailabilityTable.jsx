@@ -1,6 +1,11 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import socketio from '../helpers/socket-io';
+import nameMap from '../helpers/name-map';
+
+const serverAddress = '192.168.1.74:3000';
+const socket = socketio(serverAddress);
 
 // Icons
 import Warning from 'material-ui/svg-icons/alert/warning';
@@ -15,13 +20,24 @@ const iconStyles = {
 };
 
 const getIconForStatus = (distance) => {
-  if (distance > 600) {
+  if (distance > 1200) {
     return <Warning style={iconStyles} color={deepOrange500} />;
-  } else if (distance > 400) {
+  } else if (distance > 600) {
     return <Warning style={iconStyles} color={grey500} />;
   } else {
     return <Done style={iconStyles} color={grey500} />;
   }
+}
+
+        // <div style={keyStyles}>
+        //   <span>{getIconForStatus(0)} 0 - 10 minutes</span>
+        //   <span>{getIconForStatus(601)} 10 - 20 minutes</span>
+        //   <span>{getIconForStatus(1201)} 20+ minutes</span>
+        // </div>
+
+const keyStyles = {
+  fontSize: '12px',
+  color: 'rgb(158, 158, 158)'
 }
 
 export default class AvailabilityTable extends React.Component {
@@ -34,23 +50,23 @@ export default class AvailabilityTable extends React.Component {
   }
 
   componentWillMount () {
-    // HOOK UP SOCKET IO
+    this.poller = setInterval(() => this.fetchData(), 2000);
   }
 
   fetchData () {
-    // fetch('https://192.168.1.74:3000/api/1/unit/wollongong/all')
-    //   .then((response) => response.json())
-    //   .then((result) => {
-    //     this.setState({
-    //       unitAvailabilityData: result.unit
-    //     });
-    //   });
+    fetch(`https://${serverAddress}/api/1/unit/wollongong/all?available=true`)
+      .then((response) => response.json())
+      .then((result) => {
+        this.setState({
+          unitAvailabilityData: result.unit
+        });
+      });
   }
 
   render () {
     return (
       <Paper>
-        // ADD FEATURE TO SHOW ALL MEMBERS
+        <div style={{clear: 'both'}} />
         <Table selectable={false} multiSelectable={false}>
           <TableHeader displaySelectAll={false}
                   adjustForCheckbox={false}
@@ -61,15 +77,18 @@ export default class AvailabilityTable extends React.Component {
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
-            {this.state.unitAvailabilityData.map((member, index) =>
+            {this.state.unitAvailabilityData
+              .sort((a, b) => parseInt(a.distance) > parseInt(b.distance))
+              .map(nameMap)
+              .map((member, index) =>
               <TableRow key={index}>
                 <TableRowColumn>
-                  {member.username}<br />
+                  {member.name}<br />
                   <span style={{color:grey500}}>{member.rank}</span>
                 </TableRowColumn>
                 <TableRowColumn>
                   {getIconForStatus(member.distance)}
-                  {member.distance / 60} minutes
+                  {(member.distance > 60) ? `${Math.ceil(member.distance / 60)} minutes` : 'At Unit HQ'}
                 </TableRowColumn>
               </TableRow>
             )}

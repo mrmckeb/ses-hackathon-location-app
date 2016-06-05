@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // Components
 import HQCard from './HQCard';
 import AvailabilityTable from './AvailabilityTable';
+import AvailabilityKey from './AvailabilityKey';
 
 const styles = {
   padding: '25px'
@@ -21,6 +22,7 @@ export default class UnitStatus extends Component {
       <main style={styles}>
         <HQCard />
         <h2 style={headingStyles}>Unit availability</h2>
+        <AvailabilityKey />
         <AvailabilityTable />
       </main>
     );
