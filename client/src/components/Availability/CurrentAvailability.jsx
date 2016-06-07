@@ -67,7 +67,8 @@ export default class ProfileCard extends React.Component {
           'Content-Type': 'application/x-www-form-urlencoded'
         }),
         body: `available=${isAvailable}`
-      });
+      })
+      .catch((err) => console.warn('Cannot connect to server. Please check that it\'s running'));
   }
 
   render () {

@@ -28,12 +28,6 @@ const getIconForStatus = (distance) => {
   }
 }
 
-        // <div style={keyStyles}>
-        //   <span>{getIconForStatus(0)} 0 - 10 minutes</span>
-        //   <span>{getIconForStatus(601)} 10 - 20 minutes</span>
-        //   <span>{getIconForStatus(1201)} 20+ minutes</span>
-        // </div>
-
 const keyStyles = {
   fontSize: '12px',
   color: 'rgb(158, 158, 158)'
@@ -59,7 +53,45 @@ export default class AvailabilityTable extends React.Component {
         this.setState({
           unitAvailabilityData: result.unit
         });
+      })
+      .catch((err) => {
+        // The server is likely not running.
+        console.warn('Cannot connect to server. Please check that it\'s running')
+        clearInterval(this.poller);
+        this.setFakeData();
       });
+  }
+
+  setFakeData () {
+    this.setState({
+      unitAvailabilityData: [
+        {
+          name: 'John Smith',
+          rank: '',
+          distance: 300
+        },
+        {
+          name: 'Jane Smith',
+          rank: 'Team Leader',
+          distance: 120
+        },
+        {
+          name: 'Peter Smith',
+          rank: '',
+          distance: 420
+        },
+        {
+          name: 'Sam Smith',
+          rank: 'Dep. Officer',
+          distance: 660
+        },
+        {
+          name: 'Indiana Jones',
+          rank: 'Archaeologist',
+          distance: 2000
+        }
+      ]
+    });
   }
 
   render () {
