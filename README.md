@@ -21,4 +21,8 @@ To generate the required keys, use:
 
 `rm csr.pem`
 
+`mv cert.pem file.crt`
+
+`mv key.pem file.pem`
+
 Then run `npm start` in that folder.
